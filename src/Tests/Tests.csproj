@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Insight.Database">
+      <HintPath>..\packages\Insight.Database.Core.4.1.0\lib\NET45\Insight.Database.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -52,6 +55,10 @@
     <ProjectReference Include="..\SqlBuilder\UniqueNamespace.SqlBuilder.csproj">
       <Project>{E008F506-B0B2-4D98-9233-F8A7DEBA3B1A}</Project>
       <Name>UniqueNamespace.SqlBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniqueNamespace.SqlBuilder.Insight\UniqueNamespace.SqlBuilder.Insight.csproj">
+      <Project>{6108b344-fda6-4efe-9f42-a92aa6890883}</Project>
+      <Name>UniqueNamespace.SqlBuilder.Insight</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
