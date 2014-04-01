@@ -50,8 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="InsightSqlBuilderParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SqlBuilder\UniqueNamespace.SqlBuilder.csproj">

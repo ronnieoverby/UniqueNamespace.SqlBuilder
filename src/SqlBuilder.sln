@@ -5,9 +5,9 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniqueNamespace.SqlBuilder", "SqlBuilder\UniqueNamespace.SqlBuilder.csproj", "{E008F506-B0B2-4D98-9233-F8A7DEBA3B1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{18307490-7BEE-42CD-BA9A-B13CF0DD044D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniqueNamespace.SqlBuilder.Insight", "UniqueNamespace.SqlBuilder.Insight\UniqueNamespace.SqlBuilder.Insight.csproj", "{6108B344-FDA6-4EFE-9F42-A92AA6890883}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniqueNamespace.SqlBuilder.Dapper", "UniqueNamespace.SqlBuilder.Dapper\UniqueNamespace.SqlBuilder.Dapper.csproj", "{9CF02A12-34F2-4FE0-AFB6-36833AEAB28C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{E008F506-B0B2-4D98-9233-F8A7DEBA3B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E008F506-B0B2-4D98-9233-F8A7DEBA3B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E008F506-B0B2-4D98-9233-F8A7DEBA3B1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18307490-7BEE-42CD-BA9A-B13CF0DD044D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18307490-7BEE-42CD-BA9A-B13CF0DD044D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18307490-7BEE-42CD-BA9A-B13CF0DD044D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18307490-7BEE-42CD-BA9A-B13CF0DD044D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6108B344-FDA6-4EFE-9F42-A92AA6890883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6108B344-FDA6-4EFE-9F42-A92AA6890883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6108B344-FDA6-4EFE-9F42-A92AA6890883}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6108B344-FDA6-4EFE-9F42-A92AA6890883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CF02A12-34F2-4FE0-AFB6-36833AEAB28C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CF02A12-34F2-4FE0-AFB6-36833AEAB28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CF02A12-34F2-4FE0-AFB6-36833AEAB28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF02A12-34F2-4FE0-AFB6-36833AEAB28C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
