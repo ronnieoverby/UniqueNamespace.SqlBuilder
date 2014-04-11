@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
+using System.Data;
 using System.Linq;
 
 namespace UniqueNamespace
 {
-    public class SqlBuilderParams<TDbParams> : ISqlBuilderParams<IEnumerable<TDbParams>, TDbParams[]> where TDbParams : DbParameter
+    public class SqlBuilderParams<TDbParams> : ISqlBuilderParams<IEnumerable<TDbParams>, TDbParams[]> where TDbParams : IDataParameter
     {
         private readonly Dictionary<string, TDbParams> _params =
             new Dictionary<string, TDbParams>(StringComparer.OrdinalIgnoreCase);

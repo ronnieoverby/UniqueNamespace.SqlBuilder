@@ -30,13 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Insight.Database">
+    <Reference Include="Insight.Database, Version=4.1.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insight.Database.Core.4.1.1\lib\NET45\Insight.Database.dll</HintPath>
     </Reference>
-    <Reference Include="Insight.Database.Configuration">
+    <Reference Include="Insight.Database.Configuration, Version=4.1.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insight.Database.4.1.1\lib\NET45\Insight.Database.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Insight.Database.Providers.Default">
+    <Reference Include="Insight.Database.Providers.Default, Version=4.1.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insight.Database.4.1.1\lib\NET45\Insight.Database.Providers.Default.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
@@ -51,8 +54,21 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UniqueNamespace.SqlBuilder, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UniqueNamespace.SqlBuilder.1.1.0\lib\UniqueNamespace.SqlBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="UniqueNamespace.SqlBuilder.Dapper">
+      <HintPath>..\packages\UniqueNamespace.SqlBuilder.Dapper.1.0.0\lib\UniqueNamespace.SqlBuilder.Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="UniqueNamespace.SqlBuilder.Insight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UniqueNamespace.SqlBuilder.Insight.1.0.0\lib\UniqueNamespace.SqlBuilder.Insight.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InsightTests.cs" />
+    <Compile Include="DapperTests.cs" />
     <Compile Include="SomeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,13 +76,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SqlBuilder\UniqueNamespace.SqlBuilder.csproj">
-      <Project>{E008F506-B0B2-4D98-9233-F8A7DEBA3B1A}</Project>
-      <Name>UniqueNamespace.SqlBuilder</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UniqueNamespace.SqlBuilder.Insight\UniqueNamespace.SqlBuilder.Insight.csproj">
-      <Project>{6108b344-fda6-4efe-9f42-a92aa6890883}</Project>
-      <Name>UniqueNamespace.SqlBuilder.Insight</Name>
+    <ProjectReference Include="..\..\..\dapper-dot-net\Dapper NET45\Dapper NET45.csproj">
+      <Project>{0fff5bc7-0a4b-4d87-835e-4fad70937507}</Project>
+      <Name>Dapper NET45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
