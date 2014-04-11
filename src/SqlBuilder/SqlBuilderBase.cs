@@ -107,7 +107,7 @@ namespace UniqueNamespace
             return new Template(this, sql, parameters);
         }
 
-        void AddClause(string name, string sql, TParamsIn parameters, string joiner, string prefix = "", string postfix = "")
+        public void AddClause(string name, string sql, TParamsIn parameters, string joiner, string prefix = "", string postfix = "")
         {
             Clauses clauses;
             if (!_data.TryGetValue(name, out clauses))
@@ -117,7 +117,9 @@ namespace UniqueNamespace
             }
             clauses.Add(new Clause { Sql = sql, Parameters = parameters });
             _seq++;
-        }
+        }  
+        
+       
 
         public SqlBuilderBase<TParamsIn,TParamsOut> InnerJoin(string sql, TParamsIn parameters = null)
         {

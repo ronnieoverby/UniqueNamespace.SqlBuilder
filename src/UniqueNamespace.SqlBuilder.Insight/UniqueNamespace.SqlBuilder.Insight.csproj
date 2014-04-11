@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UniqueNamespace.Insight</RootNamespace>
     <AssemblyName>UniqueNamespace.SqlBuilder.Insight</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,21 +31,24 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Insight.Database">
-      <HintPath>..\packages\Insight.Database.Core.4.1.0\lib\NET40\Insight.Database.dll</HintPath>
+    <Reference Include="Insight.Database, Version=4.1.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insight.Database.Core.4.1.1\lib\NET45\Insight.Database.dll</HintPath>
     </Reference>
     <Reference Include="Insight.Database.Configuration">
-      <HintPath>..\packages\Insight.Database.4.1.0\lib\NET40\Insight.Database.Configuration.dll</HintPath>
+      <HintPath>..\packages\Insight.Database.4.1.1\lib\NET45\Insight.Database.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Insight.Database.Providers.Default">
-      <HintPath>..\packages\Insight.Database.4.1.0\lib\NET40\Insight.Database.Providers.Default.dll</HintPath>
+      <HintPath>..\packages\Insight.Database.4.1.1\lib\NET45\Insight.Database.Providers.Default.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
