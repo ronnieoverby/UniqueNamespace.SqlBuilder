@@ -73,7 +73,9 @@ WHERE This = @This AND That = @That
 
 ```
 
+
 `UniqueNamespace.SqlBuilder.Dapper` works much the same way. Here's how it would work with old-school ADO.NET:
+
 
 ```c#
 
