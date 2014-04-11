@@ -22,52 +22,6 @@
 </ul></li>
 </ul>
 
-<h2>Example</h2>
-
-<p>```c#</p>
-
-<pre><code>var builder = new SqlBuilder();
-var query = builder.AddTemplate("SELECT Id, This, That, TheOther" +
-                                "FROM MyTable {{WHERE}} {{ORDERBY}}" +
-                                "OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY",
-    new { skip = 10, take = 25 });
-
-var count = builder.AddTemplate("SELECT Count(*) FROM MyTable {{WHERE}}");
-
-if (userQuery.This != null)
-    builder.Where("This = @This", new { userQuery.This });
-
-if (userQuery.That != null)
-    builder.Where("That = @That", new { userQuery.That });
-
-if (userQuery.SortExpressions != null)
-    foreach (var sort in userQuery.SortExpressions)
-        builder.OrderBy(sort);
-
-// using Insight.Database (MY FAVORITE!)
-var results = connection.QuerySql&lt;ResultModel&gt;(query.RawSql, query.Parameters);
-var totalRows = connection.SingleSql&lt;int&gt;(count.RawSql, count.Parameters);
-</code></pre>
-
-<p>```</p>
-
-<p>Here's the SQL being executed:</p>
-
-<p>```SQL</p>
-
-<pre><code>SELECT Id, This, That, TheOther
-FROM MyTable
-WHERE This = @This AND That = @That
-ORDER BY This, That DESC
-OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY
-
-SELECT Count(*)
-FROM MyTable
-WHERE This = @This AND That = @That
-</code></pre>
-
-<p>```</p>
-
 <h2>Installation</h2>
 
 <p>PM> Install-Package UniqueNamespace.SqlBuilder</p>
@@ -75,3 +29,79 @@ WHERE This = @This AND That = @That
 <p>PM> Install-Package UniqueNamespace.SqlBuilder.Dapper</p>
 
 <p>PM> Install-Package UniqueNamespace.SqlBuilder.Insight</p>
+
+<h2>Example</h2>
+
+<p>This code sample uses <code>Insight.Database</code> and the <code>UniqueNamespace.SqlBuilder.Insight</code> package.</p>
+
+<p>```c#</p>
+
+<p>var builder = new SqlBuilder();
+var query = builder.AddTemplate("SELECT Id, This, That, TheOther" +
+                                "FROM MyTable {{WHERE}} {{ORDERBY}}" +
+                                "OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY",
+    new { skip = 10, take = 25 });</p>
+
+<p>var count = builder.AddTemplate("SELECT Count(*) FROM MyTable {{WHERE}}");</p>
+
+<p>if (userQuery.This != null)
+    builder.Where("This = @This", new { userQuery.This });</p>
+
+<p>if (userQuery.That != null)
+    builder.Where("That = @That", new { userQuery.That });</p>
+
+<p>if (userQuery.SortExpressions != null)
+    foreach (var sort in userQuery.SortExpressions)
+        builder.OrderBy(sort);</p>
+
+<p>// using Insight.Database (MY FAVORITE!)
+var results = connection.QuerySql<ResultModel>(query.RawSql, query.Parameters);
+var totalRows = connection.SingleSql<int>(count.RawSql, count.Parameters);</p>
+
+<p>```</p>
+
+<p>Here's the SQL being executed:</p>
+
+<p>```SQL</p>
+
+<p>SELECT Id, This, That, TheOther
+FROM MyTable
+WHERE This = @This AND That = @That
+ORDER BY This, That DESC
+OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY</p>
+
+<p>SELECT Count(*)
+FROM MyTable
+WHERE This = @This AND That = @That</p>
+
+<p>```</p>
+
+<p><code>UniqueNamespace.SqlBuilder.Dapper</code> works much the same way. Here's how it would work with old-school ADO.NET:</p>
+
+<p>```c#</p>
+
+<p>var builder = new SqlBuilder<SqlParameter>();
+var query = builder.AddTemplate("SELECT Id, This, That, TheOther " +
+                                "FROM MyTable {{WHERE}} {{ORDERBY}}" +
+                                "OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY",
+    new SqlParameter("@skip", 10),
+    new SqlParameter("@take", 10));</p>
+
+<p>if (userQuery.This != null)
+    builder.Where("This = @This", new SqlParameter("@This", userQuery.This));</p>
+
+<p>if (userQuery.That != null)
+    builder.Where("That = @That", new SqlParameter("@That", userQuery.That));</p>
+
+<p>if (userQuery.SortExpressions != null)
+    foreach (var sort in userQuery.SortExpressions)
+        builder.OrderBy(sort);</p>
+
+<p>using (var cmd = connection.CreateCommand())
+{
+    cmd.CommandText = query.RawSql;
+    cmd.Parameters.AddRange(query.Parameters);
+    // open connection; execute command; etc..
+}</p>
+
+<p>```</p>
