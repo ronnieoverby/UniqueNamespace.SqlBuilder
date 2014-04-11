@@ -32,10 +32,10 @@ This project aims to solve that by taking the SqlBuilder from Dapper and making 
     var count = builder.AddTemplate("SELECT Count(*) FROM MyTable {{WHERE}}");
 
     if (userQuery.This != null)
-    builder.Where("This = @This", new { userQuery.This });
+        builder.Where("This = @This", new { userQuery.This });
 
     if (userQuery.That != null)
-    builder.Where("That = @That", new { userQuery.That });
+        builder.Where("That = @That", new { userQuery.That });
 
     if (userQuery.SortExpressions != null)
         foreach (var sort in userQuery.SortExpressions)
