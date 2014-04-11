@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.12.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Dapper.1.13\lib\net45\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Insight.Database, Version=4.1.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insight.Database.Core.4.1.1\lib\NET45\Insight.Database.dll</HintPath>
@@ -58,7 +62,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UniqueNamespace.SqlBuilder.1.1.0\lib\UniqueNamespace.SqlBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="UniqueNamespace.SqlBuilder.Dapper">
+    <Reference Include="UniqueNamespace.SqlBuilder.Dapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UniqueNamespace.SqlBuilder.Dapper.1.0.0\lib\UniqueNamespace.SqlBuilder.Dapper.dll</HintPath>
     </Reference>
     <Reference Include="UniqueNamespace.SqlBuilder.Insight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -74,12 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\dapper-dot-net\Dapper NET45\Dapper NET45.csproj">
-      <Project>{0fff5bc7-0a4b-4d87-835e-4fad70937507}</Project>
-      <Name>Dapper NET45</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

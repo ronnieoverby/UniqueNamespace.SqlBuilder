@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniqueNamespace.SqlBuilder.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{841112F3-4C0D-4FAD-89BC-E2D661E26F92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper NET45", "..\..\dapper-dot-net\Dapper NET45\Dapper NET45.csproj", "{0FFF5BC7-0A4B-4D87-835E-4FAD70937507}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{841112F3-4C0D-4FAD-89BC-E2D661E26F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{841112F3-4C0D-4FAD-89BC-E2D661E26F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{841112F3-4C0D-4FAD-89BC-E2D661E26F92}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FFF5BC7-0A4B-4D87-835E-4FAD70937507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FFF5BC7-0A4B-4D87-835E-4FAD70937507}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FFF5BC7-0A4B-4D87-835E-4FAD70937507}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FFF5BC7-0A4B-4D87-835E-4FAD70937507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
