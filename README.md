@@ -9,6 +9,13 @@ We're using micro-ORMs because we don't like all of the complexity and bloat of 
 
 This project aims to solve that by taking the SqlBuilder from Dapper and making a few adjustments.
 
+#### What's wrong with Dapper's SqlBuilder?
+
+- It only works with Dapper's `DynamicParameters` type.
+- It's distributed only as a source code.
+- I really hated typing `/**WHATEVER**/` for placeholders.
+
+
 ## Features
 
 - No SQL generation. Your SQL is just that.
