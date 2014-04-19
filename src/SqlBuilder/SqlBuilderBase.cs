@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace UniqueNamespace
 {
-
     public abstract class SqlBuilderBase<TParamsIn, TParamsOut>
         where TParamsIn : class
         where TParamsOut : class
@@ -152,13 +151,13 @@ namespace UniqueNamespace
             return this;
         }
 
-        protected SqlBuilderBase<TParamsIn, TParamsOut> FullOuterJoin(string sql, TParamsIn parameters= null)
+        public SqlBuilderBase<TParamsIn, TParamsOut> FullOuterJoin(string sql, TParamsIn parameters= null)
         {
             AddClause("FullOuterJoin", sql, nl + "FULL OUTER JOIN ", nl + "FULL OUTER JOIN ", nl, parameters);
             return this;
         }
 
-        protected SqlBuilderBase<TParamsIn, TParamsOut> CrossJoin(string sql, TParamsIn parameters= null)
+        public SqlBuilderBase<TParamsIn, TParamsOut> CrossJoin(string sql, TParamsIn parameters = null)
         {
             AddClause("CrossJoin", sql, nl + "CROSS JOIN ", nl + "CROSS JOIN ", nl,parameters);
             return this;

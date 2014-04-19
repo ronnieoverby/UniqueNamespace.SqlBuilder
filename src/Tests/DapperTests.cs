@@ -9,7 +9,7 @@ namespace Tests
     public class DapperTests
     {
         [Test]
-        public void Tes1()
+        public void Test1()
         {
             var b = new SqlBuilder();
             var p = new {a = 123};

@@ -16,6 +16,11 @@ namespace UniqueNamespace
             return base.AddTemplate(sql, parameters);
         }
 
+        public void AddClause(string name, string sql, string joiner, string prefix = "", string postfix = "", params TDbParams[] parameters)
+        {
+            base.AddClause(name, sql, joiner, prefix, postfix, parameters);
+        }
+
         public SqlBuilder<TDbParams> From(string sql, params TDbParams[] parameters)
         {
             return (SqlBuilder<TDbParams>)base.From(sql, parameters);
@@ -56,9 +61,19 @@ namespace UniqueNamespace
             return (SqlBuilder<TDbParams>)base.FullOuterJoin(sql, parameters);
         }
 
+        public SqlBuilder<TDbParams> CrossJoin(string sql, params TDbParams[] parameters)
+        {
+            return (SqlBuilder<TDbParams>)base.CrossJoin(sql, parameters);
+        }
+
         public SqlBuilder<TDbParams> OrderBy(string sql, params TDbParams[] parameters)
         {
             return (SqlBuilder<TDbParams>)base.OrderBy(sql, parameters);
+        }
+
+        public new SqlBuilder<TDbParams> OrderBy(IEnumerable<string> sqls)
+        {
+            return (SqlBuilder<TDbParams>)base.OrderBy(sqls);
         }
 
         public SqlBuilder<TDbParams> GroupBy(string sql, params TDbParams[] parameters)
@@ -71,9 +86,14 @@ namespace UniqueNamespace
             return (SqlBuilder<TDbParams>)base.Having(sql, parameters);
         }
 
-        public new SqlBuilder<TDbParams> OrderBy(IEnumerable<string> sqls)
+        public SqlBuilder<TDbParams> Columns(string sql, params TDbParams[] parameters)
         {
-            return (SqlBuilder<TDbParams>) base.OrderBy(sqls);
+            return (SqlBuilder<TDbParams>)base.Columns(sql, parameters);
+        }
+
+        public SqlBuilder<TDbParams> AddParameters(params TDbParams[] parameters)
+        {
+            return (SqlBuilder<TDbParams>)base.AddParameters(parameters);
         }
     }
 }
