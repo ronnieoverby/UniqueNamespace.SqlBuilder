@@ -11,8 +11,6 @@ namespace Tests
 {
     public class InsightTests
     {
-
-
         [Test]
         public void Test1()
         {
@@ -24,7 +22,7 @@ namespace Tests
 
 
             int res;
-            using (var db = new SqlConnection("server=.;integrated security=true"))
+            using (var db = new SqlConnection(ConnectionStrings.Default))
             {
                 res = db.SingleSql<int>(t.RawSql, t.Parameters);
             }
@@ -51,7 +49,7 @@ namespace Tests
                 Templates.Combine(Templates.SqlServer.V2012.PagedSelection, Templates.Count), 
                 paging);
 
-            using (var db = new SqlConnection("server=.;integrated security=true; database=Northwind"))
+            using (var db = new SqlConnection(ConnectionStrings.Northwind))
             {
                 Console.WriteLine(t.RawSql);
                 var results = db.QueryResultsSql<dynamic, int>(t.RawSql, t.Parameters);

@@ -17,8 +17,9 @@ namespace Tests
 
             b.Where("@b = @c", new {b = "abc", c = "abc"});
 
-            var db = new SqlConnection("server=.;integrated security=true");
-            var res = db.Query<int>(t.RawSql, t.Parameters).Single();
+            int res;
+            using (var db = new SqlConnection(ConnectionStrings.Default))
+                res = db.Query<int>(t.RawSql, t.Parameters).Single();
             Assert.AreEqual(p.a, res);
         }
     }

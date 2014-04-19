@@ -2,7 +2,7 @@
 
 namespace Tests
 {
-    static class Ext
+    static class Extensions
     {
         public static string CleanupSql(this string sql)
         {
