@@ -2,6 +2,9 @@ using System;
 
 namespace UniqueNamespace
 {
+    /// <summary>
+    /// Prebuilt templates.
+    /// </summary>
     public static class Templates
     {
         private static readonly string NL = Environment.NewLine;
@@ -15,21 +18,18 @@ namespace UniqueNamespace
 
         public static class SqlServer
         {
-            internal const string ParamPrefix = "@";
 
             public static readonly string PagedSelection = "SELECT * " +
                                                            "FROM (" +
                                                            "{{SELECT}}, ROW_NUMBER() OVER( {{ORDERBY}} ) [RowNumber] " +
                                                            FromToHaving +
                                                            ") AS Data " +
-                                                           "WHERE [RowNumber] BETWEEN ( (~Page - 1) * ~PageSize ) + 1 AND ~PageSize * ~Page"
-                                                               .ReplaceParamPrefix(ParamPrefix);
+                                                           "WHERE [RowNumber] BETWEEN ( (@Page - 1) * @PageSize ) + 1 AND @PageSize * @Page";
 
             public static class V2012
             {
                 public static readonly string PagedSelection = Selection +
-                                                               "OFFSET ( (~Page - 1) * ~PageSize ) ROWS FETCH NEXT ~PageSize ROWS ONLY"
-                                                                   .ReplaceParamPrefix(ParamPrefix);
+                                                               "OFFSET ( (@Page - 1) * @PageSize ) ROWS FETCH NEXT @PageSize ROWS ONLY";
             }
 
             public static class CE
@@ -40,34 +40,30 @@ namespace UniqueNamespace
 
         public static class Oracle
         {
-            internal const string ParamPrefix = ":";
-
-            public static readonly string PagedSelection = SqlServer.PagedSelection.ReplaceParamPrefix(ParamPrefix);
+            public static readonly string PagedSelection = "SELECT * " +
+                                                            "FROM (" +
+                                                            "{{SELECT}}, ROW_NUMBER() OVER( {{ORDERBY}} ) [RowNumber] " +
+                                                            FromToHaving +
+                                                            ") AS Data " +
+                                                            "WHERE [RowNumber] BETWEEN ( (:Page - 1) * :PageSize ) + 1 AND :PageSize * :Page";
         }
 
         public static class MySql
         {
-            internal const string ParamPrefix = "?";
 
-            public static readonly string PagedSelection = Selection +
-                                                           " LIMIT (~Page - 1) * ~PageSize, ~PageSize"
-                                                               .ReplaceParamPrefix(ParamPrefix);
+            public static readonly string PagedSelection = Selection + " LIMIT (?Page - 1) * ?PageSize, ?PageSize";
         }
 
         public static class SQLite
         {
-            internal const string ParamPrefix = "@";
 
-            public static readonly string PagedSelection = MySql.PagedSelection.ReplaceParamPrefix(ParamPrefix);
+            public static readonly string PagedSelection = Selection + " LIMIT (@Page - 1) * @PageSize, @PageSize";
         }
 
         public static class PostgreSQL
         {
-            internal const string ParamPrefix = "@";
 
-            public static readonly string PagedSelection = Selection +
-                                                           " OFFSET (~Page - 1) * ~PageSize LIMIT ~PageSize"
-                                                               .ReplaceParamPrefix(ParamPrefix);
+            public static readonly string PagedSelection = Selection + " OFFSET (@Page - 1) * @PageSize LIMIT @PageSize";
         }
 
         public static string Combine(params string[] sqlStatements)
@@ -75,9 +71,6 @@ namespace UniqueNamespace
             return string.Join(";" + NL + NL, sqlStatements);
         }
 
-        private static string ReplaceParamPrefix(this string sql, string prefix)
-        {
-            return sql.Replace("~", prefix);
-        }
+      
     }
 }

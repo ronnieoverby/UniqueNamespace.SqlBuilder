@@ -46,7 +46,7 @@ namespace Tests
             };
 
             var t = b.AddTemplate(
-                Templates.Combine(Templates.SqlServer.V2012.PagedSelection, Templates.Count), 
+                Templates.Combine(Templates.SqlServer.PagedSelection, Templates.Count), 
                 paging);
 
             using (var db = new SqlConnection(ConnectionStrings.Northwind))
