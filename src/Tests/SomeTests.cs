@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using NUnit.Framework;
 using UniqueNamespace;
 
@@ -8,28 +9,40 @@ namespace Tests
 
     public class SomeTests
     {
-   
         [Test]
         public void BasicContrivedTest()
         {
-            var b = new SqlBuilder<SqlParameter>();
-            var t = b.AddTemplate("{{SELECT}} FROM MyTable {{WHERE}}");
             var aParam = new SqlParameter("@a", 123);
-            var t2 = b.AddTemplate("SELECT Count(*) FROM MyTable {{WHERE}}", aParam);
-
             var cParam = new SqlParameter("@c", "Kramer");
             var dParam = new SqlParameter("@d", "Seinfeld");
 
-            b.Select("This, That")
+            var b = new SqlBuilder<SqlParameter>()
+                .Select("This, That")
                 .Select("TheOther")
+                .From("MyTable")
                 .Where("Character = @c", cParam)
-                .Where("Director = @d", dParam);
+                .Where("Director = @d", dParam)
+                .OrderBy(new[] { "This", "That", "TheOther" });
 
-            Assert.AreEqual("SELECT This, That , TheOther\n FROM MyTable " +
-                            "WHERE Character = @c AND Director = @d\n", t.RawSql);
+            var t = b.AddTemplate(Templates.SelectionTemplate);
+            var t2 = b.AddTemplate(Templates.CountTemplate, aParam);
 
-            Assert.AreEqual("SELECT Count(*) FROM MyTable " +
-                            "WHERE Character = @c AND Director = @d\n", t2.RawSql);
+            var nl = Environment.NewLine;
+            var expected =
+                "SELECT This, That , TheOther " +
+                "FROM MyTable " +
+                "WHERE Character = @c AND Director = @d " +
+                "ORDER BY This , That , TheOther";
+
+            Assert.AreEqual(expected.CleanupSql(), t.RawSql.CleanupSql(), "1");
+
+
+            expected = "SELECT Count(*) " +
+                       "FROM MyTable " +
+                       "WHERE Character = @c AND Director = @d " +
+                       "ORDER BY This , That , TheOther";
+
+            Assert.AreEqual(expected.CleanupSql(), t2.RawSql.CleanupSql(), "2");
 
             CollectionAssert.AreEqual(new[] { cParam, dParam }, t.Parameters);
             CollectionAssert.AreEqual(new[] { aParam, cParam, dParam }, t2.Parameters);

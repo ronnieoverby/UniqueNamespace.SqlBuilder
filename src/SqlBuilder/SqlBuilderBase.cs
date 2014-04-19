@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace UniqueNamespace
 {
+
     public abstract class SqlBuilderBase<TParamsIn, TParamsOut>
         where TParamsIn : class
         where TParamsOut : class
@@ -109,7 +110,7 @@ namespace UniqueNamespace
             return new Template(this, sql, parameters);
         }
 
-        public void AddClause(string name, string sql, TParamsIn parameters, string joiner, string prefix = "", string postfix = "")
+        public void AddClause(string name, string sql, string joiner, string prefix = "", string postfix = "", TParamsIn parameters=null)
         {
             Clauses clauses;
             if (!_data.TryGetValue(name, out clauses))
@@ -121,71 +122,96 @@ namespace UniqueNamespace
             _seq++;
         }
 
-
-
-        public SqlBuilderBase<TParamsIn,TParamsOut> From(string sql, TParamsIn parameters = null)
+        public SqlBuilderBase<TParamsIn, TParamsOut> From(string sql, TParamsIn parameters = null)
         {
-            AddClause("from", sql, parameters, joiner: " , ", prefix: "\nFROM ", postfix: "\n");
-            return this;
-        }
-
-        public SqlBuilderBase<TParamsIn, TParamsOut> InnerJoin(string sql, TParamsIn parameters = null)
-        {
-            AddClause("innerjoin", sql, parameters, joiner: nl + "INNER JOIN ", prefix: nl + "INNER JOIN ", postfix: nl);
-            return this;
-        }
-
-        public SqlBuilderBase<TParamsIn, TParamsOut> LeftJoin(string sql, TParamsIn parameters = null)
-        {
-            AddClause("leftjoin", sql, parameters, joiner: nl + "LEFT JOIN ", prefix: nl + "LEFT JOIN ", postfix: nl);
-            return this;
-        }
-
-        public SqlBuilderBase<TParamsIn, TParamsOut> RightJoin(string sql, TParamsIn parameters = null)
-        {
-            AddClause("rightjoin", sql, parameters, joiner: nl + "RIGHT JOIN ", prefix: nl + "RIGHT JOIN ", postfix: nl);
-            return this;
-        }
-
-        public SqlBuilderBase<TParamsIn, TParamsOut> Where(string sql, TParamsIn parameters = null)
-        {
-            AddClause("where", sql, parameters, " AND ", prefix: "WHERE ", postfix: nl);
-            return this;
-        }
-
-        public SqlBuilderBase<TParamsIn, TParamsOut> OrderBy(string sql, TParamsIn parameters = null)
-        {
-            AddClause("orderby", sql, parameters, " , ", prefix: "ORDER BY ", postfix: nl);
-            return this;
-        }
-
-        public SqlBuilderBase<TParamsIn, TParamsOut> Select(string sql, TParamsIn parameters = null)
-        {
-            AddClause("select", sql, parameters, " , ", prefix: "SELECT ", postfix: nl);
-            return this;
-        }
-
-        public SqlBuilderBase<TParamsIn, TParamsOut> AddParameters(TParamsIn parameters)
-        {
-            AddClause("--parameters", sql: "", parameters: parameters, joiner: "");
+            AddClause("From", sql, " , ", "FROM ", nl, parameters);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> Join(string sql, TParamsIn parameters = null)
         {
-            AddClause("join", sql, parameters, joiner: nl + "JOIN ", prefix: nl + "JOIN ", postfix: nl);
+            AddClause("Join", sql, nl + "JOIN ", nl + "JOIN ", nl, parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> InnerJoin(string sql, TParamsIn parameters = null)
+        {
+            AddClause("InnerJoin", sql, nl + "INNER JOIN ", nl + "INNER JOIN ", nl,parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> LeftJoin(string sql, TParamsIn parameters = null)
+        {
+            AddClause("LeftJoin", sql, nl + "LEFT JOIN ", nl + "LEFT JOIN ", nl,parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> RightJoin(string sql, TParamsIn parameters = null)
+        {
+            AddClause("RightJoin", sql, nl + "RIGHT JOIN ", nl + "RIGHT JOIN ", nl,parameters);
+            return this;
+        }
+
+        protected SqlBuilderBase<TParamsIn, TParamsOut> FullOuterJoin(string sql, TParamsIn parameters= null)
+        {
+            AddClause("FullOuterJoin", sql, nl + "FULL OUTER JOIN ", nl + "FULL OUTER JOIN ", nl, parameters);
+            return this;
+        }
+
+        protected SqlBuilderBase<TParamsIn, TParamsOut> CrossJoin(string sql, TParamsIn parameters= null)
+        {
+            AddClause("CrossJoin", sql, nl + "CROSS JOIN ", nl + "CROSS JOIN ", nl,parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> Where(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Where", sql,  " AND ", "WHERE ", nl,parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> OrderBy(string sql, TParamsIn parameters = null)
+        {
+            AddClause("OrderBy", sql, " , ", "ORDER BY ", nl, parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> OrderBy(IEnumerable<string> sqls)
+        {
+            if (sqls == null) throw new ArgumentNullException("sqls");
+
+            foreach (var sql in sqls)
+                OrderBy(sql);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> Select(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Select", sql,  " , ", "SELECT ", nl, parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> Columns(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Columns", sql,  " , ", "", nl, parameters);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> GroupBy(string sql, TParamsIn parameters = null)
         {
-            AddClause("groupby", sql, parameters, joiner: " , ", prefix: nl + "GROUP BY ", postfix: nl);
+            AddClause("GroupBy", sql, " , ", nl + "GROUP BY ", nl, parameters);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> Having(string sql, TParamsIn parameters = null)
         {
-            AddClause("having", sql, parameters, joiner: nl + "AND ", prefix: "HAVING ", postfix: nl);
+            AddClause("Having", sql, nl + "AND ", "HAVING ", nl, parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> AddParameters(TParamsIn parameters)
+        {
+            AddClause("--parameters", "", "", parameters: parameters);
             return this;
         }
     }

@@ -58,20 +58,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UniqueNamespace.SqlBuilder, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UniqueNamespace.SqlBuilder.1.1.0\lib\UniqueNamespace.SqlBuilder.dll</HintPath>
-    </Reference>
-    <Reference Include="UniqueNamespace.SqlBuilder.Dapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UniqueNamespace.SqlBuilder.Dapper.1.0.0\lib\UniqueNamespace.SqlBuilder.Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="UniqueNamespace.SqlBuilder.Insight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UniqueNamespace.SqlBuilder.Insight.1.0.0\lib\UniqueNamespace.SqlBuilder.Insight.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ext.cs" />
     <Compile Include="InsightTests.cs" />
     <Compile Include="DapperTests.cs" />
     <Compile Include="SomeTests.cs" />
@@ -79,6 +68,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SqlBuilder\UniqueNamespace.SqlBuilder.csproj">
+      <Project>{e008f506-b0b2-4d98-9233-f8a7deba3b1a}</Project>
+      <Name>UniqueNamespace.SqlBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniqueNamespace.SqlBuilder.Dapper\UniqueNamespace.SqlBuilder.Dapper.csproj">
+      <Project>{9cf02a12-34f2-4fe0-afb6-36833aeab28c}</Project>
+      <Name>UniqueNamespace.SqlBuilder.Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniqueNamespace.SqlBuilder.Insight\UniqueNamespace.SqlBuilder.Insight.csproj">
+      <Project>{6108b344-fda6-4efe-9f42-a92aa6890883}</Project>
+      <Name>UniqueNamespace.SqlBuilder.Insight</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
