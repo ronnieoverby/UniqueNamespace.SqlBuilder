@@ -25,6 +25,7 @@ This project aims to solve that by taking the SqlBuilder from Dapper and making 
     - ADO.NET
     - Dapper
     - Insight.Database (my personal favorite)
+- Prebuilt SQL templates to save you some time.
 
 ## Installation
 
