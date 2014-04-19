@@ -121,6 +121,12 @@ namespace UniqueNamespace
         
        
 
+        public SqlBuilderBase<TParamsIn,TParamsOut> From(string sql, TParamsIn parameters = null)
+        {
+            AddClause("from", sql, parameters, joiner: " , ", prefix: "\nFROM ", postfix: "\n");
+            return this;
+        }
+
         public SqlBuilderBase<TParamsIn,TParamsOut> InnerJoin(string sql, TParamsIn parameters = null)
         {
             AddClause("innerjoin", sql, parameters, joiner: "\nINNER JOIN ", prefix: "\nINNER JOIN ", postfix: "\n");
