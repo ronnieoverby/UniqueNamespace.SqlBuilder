@@ -9,6 +9,8 @@ namespace UniqueNamespace
         where TParamsIn : class
         where TParamsOut : class
     {
+        private static readonly string nl = Environment.NewLine;
+
         readonly Dictionary<string, Clauses> _data = new Dictionary<string, Clauses>();
         int _seq;
 
@@ -33,7 +35,7 @@ namespace UniqueNamespace
                 _postfix = postfix;
             }
 
-            public string ResolveClauses(ISqlBuilderParams<TParamsIn,TParamsOut> p)
+            public string ResolveClauses(ISqlBuilderParams<TParamsIn, TParamsOut> p)
             {
                 var sql = string.Join(_joiner, this.Select(clause =>
                 {
@@ -50,7 +52,7 @@ namespace UniqueNamespace
         public class Template
         {
             readonly string _sql;
-            readonly SqlBuilderBase<TParamsIn,TParamsOut> _builder;
+            readonly SqlBuilderBase<TParamsIn, TParamsOut> _builder;
             readonly ISqlBuilderParams<TParamsIn, TParamsOut> _initParams;
             int _dataSeq = -1; // Unresolved
 
@@ -117,9 +119,9 @@ namespace UniqueNamespace
             }
             clauses.Add(new Clause { Sql = sql, Parameters = parameters });
             _seq++;
-        }  
-        
-       
+        }
+
+
 
         public SqlBuilderBase<TParamsIn,TParamsOut> From(string sql, TParamsIn parameters = null)
         {
@@ -127,39 +129,39 @@ namespace UniqueNamespace
             return this;
         }
 
-        public SqlBuilderBase<TParamsIn,TParamsOut> InnerJoin(string sql, TParamsIn parameters = null)
+        public SqlBuilderBase<TParamsIn, TParamsOut> InnerJoin(string sql, TParamsIn parameters = null)
         {
-            AddClause("innerjoin", sql, parameters, joiner: "\nINNER JOIN ", prefix: "\nINNER JOIN ", postfix: "\n");
+            AddClause("innerjoin", sql, parameters, joiner: nl + "INNER JOIN ", prefix: nl + "INNER JOIN ", postfix: nl);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> LeftJoin(string sql, TParamsIn parameters = null)
         {
-            AddClause("leftjoin", sql, parameters, joiner: "\nLEFT JOIN ", prefix: "\nLEFT JOIN ", postfix: "\n");
+            AddClause("leftjoin", sql, parameters, joiner: nl + "LEFT JOIN ", prefix: nl + "LEFT JOIN ", postfix: nl);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> RightJoin(string sql, TParamsIn parameters = null)
         {
-            AddClause("rightjoin", sql, parameters, joiner: "\nRIGHT JOIN ", prefix: "\nRIGHT JOIN ", postfix: "\n");
+            AddClause("rightjoin", sql, parameters, joiner: nl + "RIGHT JOIN ", prefix: nl + "RIGHT JOIN ", postfix: nl);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> Where(string sql, TParamsIn parameters = null)
         {
-            AddClause("where", sql, parameters, " AND ", prefix: "WHERE ", postfix: "\n");
+            AddClause("where", sql, parameters, " AND ", prefix: "WHERE ", postfix: nl);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> OrderBy(string sql, TParamsIn parameters = null)
         {
-            AddClause("orderby", sql, parameters, " , ", prefix: "ORDER BY ", postfix: "\n");
+            AddClause("orderby", sql, parameters, " , ", prefix: "ORDER BY ", postfix: nl);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> Select(string sql, TParamsIn parameters = null)
         {
-            AddClause("select", sql, parameters, " , ", prefix: "SELECT ", postfix: "\n");
+            AddClause("select", sql, parameters, " , ", prefix: "SELECT ", postfix: nl);
             return this;
         }
 
@@ -171,19 +173,19 @@ namespace UniqueNamespace
 
         public SqlBuilderBase<TParamsIn, TParamsOut> Join(string sql, TParamsIn parameters = null)
         {
-            AddClause("join", sql, parameters, joiner: "\nJOIN ", prefix: "\nJOIN ", postfix: "\n");
+            AddClause("join", sql, parameters, joiner: nl + "JOIN ", prefix: nl + "JOIN ", postfix: nl);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> GroupBy(string sql, TParamsIn parameters = null)
         {
-            AddClause("groupby", sql, parameters, joiner: " , ", prefix: "\nGROUP BY ", postfix: "\n");
+            AddClause("groupby", sql, parameters, joiner: " , ", prefix: nl + "GROUP BY ", postfix: nl);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> Having(string sql, TParamsIn parameters = null)
         {
-            AddClause("having", sql, parameters, joiner: "\nAND ", prefix: "HAVING ", postfix: "\n");
+            AddClause("having", sql, parameters, joiner: nl + "AND ", prefix: "HAVING ", postfix: nl);
             return this;
         }
     }

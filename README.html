@@ -1,0 +1,115 @@
+<h1>UniqueNamespace.SqlBuilder</h1>
+
+<p>A blatant ripoff of Dapper's SqlBuilder. Thanks Dapper!</p>
+
+<h2>Why?</h2>
+
+<p>We're using micro-ORMs because we don't like all of the complexity and bloat of "macro-ORMs." But we lose the ability to compose queries using LINQ.</p>
+
+<p>This project aims to solve that by taking the SqlBuilder from Dapper and making a few adjustments.</p>
+
+<h4>What's wrong with Dapper's SqlBuilder?</h4>
+
+<ul>
+<li>It only works with Dapper's <code>DynamicParameters</code> type.</li>
+<li>It's distributed only as a source code.</li>
+<li>I really hated typing <code>/**WHATEVER**/</code> for placeholders.</li>
+</ul>
+
+<h2>Features</h2>
+
+<ul>
+<li>No SQL generation. Your SQL is just that.</li>
+<li>Parameter build-up.</li>
+<li>Works with any SQL database</li>
+<li>Not tied to any specific ORM, but does have out-of-box support for:
+<ul>
+<li>ADO.NET</li>
+<li>Dapper</li>
+<li>Insight.Database (my personal favorite)</li>
+</ul></li>
+</ul>
+
+<h2>Installation</h2>
+
+<p>PM> Install-Package UniqueNamespace.SqlBuilder</p>
+
+<p>PM> Install-Package UniqueNamespace.SqlBuilder.Dapper</p>
+
+<p>PM> Install-Package UniqueNamespace.SqlBuilder.Insight</p>
+
+<h2>Example</h2>
+
+<p>This code sample uses <code>Insight.Database</code> and the <code>UniqueNamespace.SqlBuilder.Insight</code> package.</p>
+
+<p>```c#</p>
+
+<p>var builder = new SqlBuilder();
+var query = builder.AddTemplate("SELECT Id, This, That, TheOther" +
+                                "FROM MyTable {{WHERE}} {{ORDERBY}}" +
+                                "OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY",
+    new { skip = 10, take = 25 });</p>
+
+<p>var count = builder.AddTemplate("SELECT Count(*) FROM MyTable {{WHERE}}");</p>
+
+<p>if (userQuery.This != null)
+    builder.Where("This = @This", new { userQuery.This });</p>
+
+<p>if (userQuery.That != null)
+    builder.Where("That = @That", new { userQuery.That });</p>
+
+<p>if (userQuery.SortExpressions != null)
+    foreach (var sort in userQuery.SortExpressions)
+        builder.OrderBy(sort);</p>
+
+<p>// using Insight.Database (MY FAVORITE!)
+var results = connection.QuerySql<ResultModel>(query.RawSql, query.Parameters);
+var totalRows = connection.SingleSql<int>(count.RawSql, count.Parameters);</p>
+
+<p>```</p>
+
+<p>Here's the SQL being executed:</p>
+
+<p>```SQL</p>
+
+<p>SELECT Id, This, That, TheOther
+FROM MyTable
+WHERE This = @This AND That = @That
+ORDER BY This, That DESC
+OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY</p>
+
+<p>SELECT Count(*)
+FROM MyTable
+WHERE This = @This AND That = @That</p>
+
+<p>```</p>
+
+<p><code>UniqueNamespace.SqlBuilder.Dapper</code> works much the same way. Here's how it would work with old-school ADO.NET:</p>
+
+<p>```c#</p>
+
+<p>var builder = new SqlBuilder<SqlParameter>();
+var query = builder.AddTemplate("SELECT Id, This, That, TheOther " +
+                                "FROM MyTable {{WHERE}} {{ORDERBY}}" +
+                                "OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY",
+    new SqlParameter("@skip", 10),
+    new SqlParameter("@take", 10));</p>
+
+<p>if (userQuery.This != null)
+    builder.Where("This = @This", new SqlParameter("@This", userQuery.This));</p>
+
+<p>if (userQuery.That != null)
+    builder.Where("That = @That", new SqlParameter("@That", userQuery.That));</p>
+
+<p>if (userQuery.SortExpressions != null)
+    foreach (var sort in userQuery.SortExpressions)
+        builder.OrderBy(sort);</p>
+
+<p>using (var cmd = connection.CreateCommand())
+{
+    cmd.CommandText = query.RawSql;
+    cmd.Parameters.AddRange(query.Parameters);
+    // open connection; execute command; etc..
+}</p>
+
+<p>```</p>
