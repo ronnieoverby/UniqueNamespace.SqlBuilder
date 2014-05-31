@@ -19,12 +19,11 @@ namespace UniqueNamespace
         public static class SqlServer
         {
 
-            public static readonly string PagedSelection = "SELECT * " +
-                                                           "FROM (" +
-                                                           "{{SELECT}}, ROW_NUMBER() OVER( {{ORDERBY}} ) [RowNumber] " +
-                                                           FromToHaving +
-                                                           ") AS Data " +
-                                                           "WHERE [RowNumber] BETWEEN ( (@Page - 1) * @PageSize ) + 1 AND @PageSize * @Page";
+            public static readonly string PagedSelection = " ;WITH __cte1 AS ( {{SELECT}} " + FromToHaving + " ), " +
+                                                           "__cte2 AS " +
+                                                           "( SELECT *, ROW_NUMBER() OVER( {{ORDERBY}} ) AS [RowNumber] FROM __cte1 ) " +
+                                                           "SELECT * FROM __cte2 " +
+                                                           "WHERE [RowNumber] BETWEEN ( (@Page - 1) * @PageSize ) + 1 AND @PageSize * @Page ";
 
             public static class V2012
             {
@@ -71,6 +70,6 @@ namespace UniqueNamespace
             return string.Join(";" + NL + NL, sqlStatements);
         }
 
-      
+
     }
 }

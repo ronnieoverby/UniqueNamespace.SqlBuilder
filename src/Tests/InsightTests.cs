@@ -37,7 +37,7 @@ namespace Tests
                 .Select("*")
                 .From("Orders o")
                 .Where("o.ShipCountry = @country ", new {country = "USA"})
-                .OrderBy("o.CustomerID DESC");
+                .OrderBy("CustomerID DESC");
 
             var paging = new
             {
