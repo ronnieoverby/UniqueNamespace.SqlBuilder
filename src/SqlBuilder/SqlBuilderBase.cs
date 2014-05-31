@@ -109,7 +109,7 @@ namespace UniqueNamespace
             return new Template(this, sql, parameters);
         }
 
-        public void AddClause(string name, string sql, string joiner, string prefix = "", string postfix = "", TParamsIn parameters=null)
+        public void AddClause(string name, string sql, string joiner, string prefix = "", string postfix = "", TParamsIn parameters = null)
         {
             Clauses clauses;
             if (!_data.TryGetValue(name, out clauses))
@@ -135,23 +135,23 @@ namespace UniqueNamespace
 
         public SqlBuilderBase<TParamsIn, TParamsOut> InnerJoin(string sql, TParamsIn parameters = null)
         {
-            AddClause("InnerJoin", sql, nl + "INNER JOIN ", nl + "INNER JOIN ", nl,parameters);
+            AddClause("InnerJoin", sql, nl + "INNER JOIN ", nl + "INNER JOIN ", nl, parameters);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> LeftJoin(string sql, TParamsIn parameters = null)
         {
-            AddClause("LeftJoin", sql, nl + "LEFT JOIN ", nl + "LEFT JOIN ", nl,parameters);
+            AddClause("LeftJoin", sql, nl + "LEFT JOIN ", nl + "LEFT JOIN ", nl, parameters);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> RightJoin(string sql, TParamsIn parameters = null)
         {
-            AddClause("RightJoin", sql, nl + "RIGHT JOIN ", nl + "RIGHT JOIN ", nl,parameters);
+            AddClause("RightJoin", sql, nl + "RIGHT JOIN ", nl + "RIGHT JOIN ", nl, parameters);
             return this;
         }
 
-        public SqlBuilderBase<TParamsIn, TParamsOut> FullOuterJoin(string sql, TParamsIn parameters= null)
+        public SqlBuilderBase<TParamsIn, TParamsOut> FullOuterJoin(string sql, TParamsIn parameters = null)
         {
             AddClause("FullOuterJoin", sql, nl + "FULL OUTER JOIN ", nl + "FULL OUTER JOIN ", nl, parameters);
             return this;
@@ -159,13 +159,13 @@ namespace UniqueNamespace
 
         public SqlBuilderBase<TParamsIn, TParamsOut> CrossJoin(string sql, TParamsIn parameters = null)
         {
-            AddClause("CrossJoin", sql, nl + "CROSS JOIN ", nl + "CROSS JOIN ", nl,parameters);
+            AddClause("CrossJoin", sql, nl + "CROSS JOIN ", nl + "CROSS JOIN ", nl, parameters);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> Where(string sql, TParamsIn parameters = null)
         {
-            AddClause("Where", sql,  " AND ", "WHERE ", nl,parameters);
+            AddClause("Where", sql, " AND ", "WHERE ", nl, parameters);
             return this;
         }
 
@@ -184,15 +184,25 @@ namespace UniqueNamespace
             return this;
         }
 
+        public SqlBuilderBase<TParamsIn, TParamsOut> OrderBy(IEnumerable<SortExpression> sortExpressions)
+        {
+            if (sortExpressions == null) throw new ArgumentNullException("sortExpressions");
+
+            foreach (var sort in sortExpressions)
+                OrderBy(sort.ToString());
+
+            return this;
+        }
+
         public SqlBuilderBase<TParamsIn, TParamsOut> Select(string sql, TParamsIn parameters = null)
         {
-            AddClause("Select", sql,  " , ", "SELECT ", nl, parameters);
+            AddClause("Select", sql, " , ", "SELECT ", nl, parameters);
             return this;
         }
 
         public SqlBuilderBase<TParamsIn, TParamsOut> Columns(string sql, TParamsIn parameters = null)
         {
-            AddClause("Columns", sql,  " , ", "", nl, parameters);
+            AddClause("Columns", sql, " , ", "", nl, parameters);
             return this;
         }
 

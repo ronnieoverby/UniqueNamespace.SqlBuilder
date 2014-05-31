@@ -112,3 +112,38 @@ using (var cmd = connection.CreateCommand())
 }
 
 ```
+## Sort Expressions
+
+Use the `SortExpression` class to help with dynamic ordering:
+
+```c#
+
+// implicit conversion from string
+SortExpression sort = "[My Column] desc";
+string name = sort.Name; // "[My Column]"
+bool descending = sort.Descending; // true
+
+// implicit conversion to string
+string s = sort; // "[My Column] DESC"
+
+// parse multiples
+SortExpression[] sorts = SortExpression.Parse("This, That, Other desc");
+string orderBy = sorts.Join(); // "This ASC, That ASC, Other DESC"
+
+// disallows sorting from client that you don't want
+// excludes "Other" from above
+Enumerable allowed = sorts.WhiteList("This", "That"); 
+
+// disallows unsafe column names
+SortExpression good = "[My Column]";
+SortExpression bad = "My Column"; // throws InvalidSortExpressionNameException
+bad = "MyColumn OR 1=1; DELETE Users"; // throws InvalidSortExpressionNameException
+
+// value equality
+var count = SortExpression.Parse("Name, [Name]").Distinct().Count(); // 1
+
+// pass to builder
+var b = new SqlBuilder();
+b.OrderBy(sorts);
+
+```

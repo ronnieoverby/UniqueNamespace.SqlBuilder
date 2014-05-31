@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="ISqlBuilderParams.cs" />
+    <Compile Include="SortExpression.cs" />
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="SqlBuilderBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

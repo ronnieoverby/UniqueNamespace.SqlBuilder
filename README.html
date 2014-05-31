@@ -1,4 +1,4 @@
-<h1>UniqueNamespace.SqlBuilder</h1>
+﻿<h1>UniqueNamespace.SqlBuilder</h1>
 
 <p>A blatant ripoff of Dapper's SqlBuilder. Thanks Dapper!</p>
 
@@ -28,6 +28,7 @@
 <li>Dapper</li>
 <li>Insight.Database (my personal favorite)</li>
 </ul></li>
+<li>Prebuilt SQL templates to save you some time.</li>
 </ul>
 
 <h2>Installation</h2>
@@ -111,5 +112,41 @@ var query = builder.AddTemplate("SELECT Id, This, That, TheOther " +
     cmd.Parameters.AddRange(query.Parameters);
     // open connection; execute command; etc..
 }</p>
+
+<p>```</p>
+
+<h2>Sort Expressions</h2>
+
+<p>Use the <code>SortExpression</code> class to help with dynamic ordering:</p>
+
+<p>```c#</p>
+
+<p>// implicit conversion from string
+SortExpression sort = "[My Column] desc";
+string name = sort.Name; // "[My Column]"
+bool descending = sort.Descending; // true</p>
+
+<p>// implicit conversion to string
+string s = sort; // "[My Column] DESC"</p>
+
+<p>// parse multiples
+SortExpression[] sorts = SortExpression.Parse("This, That, Other desc");
+string orderBy = sorts.Join(); // "This ASC, That ASC, Other DESC"</p>
+
+<p>// disallows sorting from client that you don't want
+// excludes "Other" from above
+Enumerable allowed = sorts.WhiteList("This", "That"); </p>
+
+<p>// disallows unsafe column names
+SortExpression good = "[My Column]";
+SortExpression bad = "My Column"; // throws InvalidSortExpressionNameException
+bad = "MyColumn OR 1=1; DELETE Users"; // throws InvalidSortExpressionNameException</p>
+
+<p>// value equality
+var count = SortExpression.Parse("Name, [Name]").Distinct().Count(); // 1</p>
+
+<p>// pass to builder
+var b = new SqlBuilder();
+b.OrderBy(sorts);</p>
 
 <p>```</p>
