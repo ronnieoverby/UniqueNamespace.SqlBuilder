@@ -7,6 +7,48 @@ namespace Tests
     public class PredicateTests
     {
         [Test]
+        public void FalseIsFalse()
+        {
+            SqlPredicate.False.Sql.Should().Be("0 = 1");
+        }
+
+        [Test]
+        public void TrueIsTrue()
+        {
+            SqlPredicate.True.Sql.Should().Be("1 = 1");
+        }
+
+        [Test]
+        public void EmptyOrEachIsTrue()
+        {
+            new SqlPredicate[0].OrEach().Sql.ShouldBeEquivalentTo(SqlPredicate.True.Sql);
+        }
+
+        [Test]
+        public void EmptyAndEachIsFalse()
+        {
+            new SqlPredicate[0].AndEach().Sql.ShouldBeEquivalentTo(SqlPredicate.False.Sql);
+        }
+
+        [Test]
+        public void OrEachWorks()
+        {
+            new SqlPredicate[]{"a = b","b = c","c = d"}.OrEach().Sql
+                .ShouldBeEquivalentTo("( ( a = b ) OR ( b = c ) ) OR ( c = d )");
+        }
+
+
+        [Test]
+        public void AndEachWorks()
+        {
+
+            new SqlPredicate[]{"a = b","b = c","c = d","d = e","e = f"}.AndEach().Sql
+                .ShouldBeEquivalentTo("( ( ( ( a = b ) AND ( b = c ) ) AND ( c = d ) ) AND ( d = e ) ) AND ( e = f )");
+        }
+
+
+
+        [Test]
         public void CanAndSomeStuff()
         {
             SqlPredicate p1 = "1 = 1";

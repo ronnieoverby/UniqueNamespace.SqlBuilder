@@ -1,23 +1,58 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UniqueNamespace
 {
+    static public class SqlPredicateExtensions
+    {
+        public static SqlPredicate OrEach(this IEnumerable<SqlPredicate> predicates)
+        {
+            if (predicates == null) throw new ArgumentNullException("predicates");
+
+            var list = predicates.ToList();
+
+            if (!list.Any())
+                list.Add(SqlPredicate.True);
+
+            return list.Aggregate((x, y) => x.Or(y));
+        }
+
+        public static SqlPredicate AndEach(this IEnumerable<SqlPredicate> predicates)
+        {
+            if (predicates == null) throw new ArgumentNullException("predicates");
+
+            var list = predicates.ToList();
+
+            if (!list.Any())
+                list.Add(SqlPredicate.False);
+
+            return list.Aggregate((x, y) => x.And(y));
+        }
+    }
+
     public class SqlPredicate
     {
-        public string Sql { get; private set; }
+        public static readonly SqlPredicate False = "0 = 1";
+        public static readonly SqlPredicate True = "1 = 1";
+        private readonly string _sql;
 
-        public SqlPredicate(string sql)
+        public string Sql
         {
-            if (sql == null) throw new ArgumentNullException("sql");
+            get { return _sql; }
+        }
 
-            if (sql.IsNullOrWhiteSpace())
-                throw new ArgumentOutOfRangeException("sql", "sql was empty");
+        public SqlPredicate(string sql )
+        {
+            if (sql.IsNullOrWhiteSpace()) 
+                throw new ArgumentNullException("sql", "sql must not be empty");
 
-            Sql = sql;
+            _sql = sql;
         }
 
         public SqlPredicate And(SqlPredicate p)
         {
+
             return string.Format("( {0} ) AND ( {1} )", Sql, p.Sql);
         }
 
