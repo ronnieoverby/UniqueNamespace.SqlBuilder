@@ -46,6 +46,7 @@
     <Compile Include="SqlBuilderBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlBuilderParams.cs" />
+    <Compile Include="SqlPredicate.cs" />
     <Compile Include="Templates.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

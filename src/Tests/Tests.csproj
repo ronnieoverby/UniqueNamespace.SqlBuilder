@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="ConnectionStrings.cs" />
     <Compile Include="Ext.cs" />
+    <Compile Include="PredicateTests.cs" />
     <Compile Include="SortExpressionTests.cs" />
     <Compile Include="InsightTests.cs" />
     <Compile Include="DapperTests.cs" />
