@@ -35,5 +35,6 @@ namespace UniqueNamespace
         {
             return Sql;
         }
+
     }
 }

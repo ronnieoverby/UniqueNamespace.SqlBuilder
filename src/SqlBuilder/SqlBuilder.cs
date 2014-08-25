@@ -76,6 +76,11 @@ namespace UniqueNamespace
             return (SqlBuilder<TDbParams>)base.OrderBy(sqls);
         }
 
+        public new SqlBuilder<TDbParams> OrderBy(IEnumerable<SortExpression> sortExpressions)
+        {
+            return (SqlBuilder<TDbParams>)base.OrderBy(sortExpressions);
+        }
+
         public SqlBuilder<TDbParams> GroupBy(string sql, params TDbParams[] parameters)
         {
             return (SqlBuilder<TDbParams>)base.GroupBy(sql, parameters);
