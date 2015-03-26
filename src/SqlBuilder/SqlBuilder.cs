@@ -41,6 +41,16 @@ namespace UniqueNamespace
             return (SqlBuilder<TDbParams>)base.OrWhere(sql, parameters);
         }
 
+        public SqlBuilder<TDbParams> Union(string sql, params TDbParams[] parameters)
+        {
+            return (SqlBuilder<TDbParams>)base.Union(sql, parameters);
+        }
+
+        public SqlBuilder<TDbParams> Intersect(string sql, params TDbParams[] parameters)
+        {
+            return (SqlBuilder<TDbParams>)base.Intersect(sql, parameters);
+        }
+
         public SqlBuilder<TDbParams> Join(string sql, params TDbParams[] parameters)
         {
             return (SqlBuilder<TDbParams>)base.Join(sql, parameters);

@@ -167,6 +167,18 @@ namespace UniqueNamespace
             return this;
         }
 
+        public SqlBuilderBase<TParamsIn, TParamsOut> Union(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Union", sql, nl + "UNION ", nl + "UNION ", nl, parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> Intersect(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Intersect", sql, nl + "INTERSECT ", nl + "INTERSECT ", nl, parameters);
+            return this;
+        }
+
         public SqlBuilderBase<TParamsIn, TParamsOut> InnerJoin(string sql, TParamsIn parameters = null)
         {
             AddClause("InnerJoin", sql, nl + "INNER JOIN ", nl + "INNER JOIN ", nl, parameters);

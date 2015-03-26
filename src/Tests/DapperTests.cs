@@ -52,5 +52,31 @@ namespace Tests
 
             Assert.AreEqual(expected.CleanupSql(), query.RawSql.CleanupSql());
         }
+
+        [Test]
+        public void UnionTest()
+        {
+            var builder = new SqlBuilder();
+            var query = builder.AddTemplate("SELECT CustomerID FROM Customers WHERE CustomerID = 1 {{UNION}}");
+
+            builder.Union("SELECT CustomerID FROM Customers WHERE CustomerID = 2");
+
+            var expected = "SELECT CustomerID FROM Customers WHERE CustomerID = 1 UNION SELECT CustomerID FROM Customers WHERE CustomerID = 2";
+
+            Assert.AreEqual(expected.CleanupSql(), query.RawSql.CleanupSql());
+        }
+
+        [Test]
+        public void IntersectTest()
+        {
+            var builder = new SqlBuilder();
+            var query = builder.AddTemplate("SELECT CustomerID FROM Customers WHERE CustomerID = 1 {{INTERSECT}}");
+
+            builder.Intersect("SELECT CustomerID FROM Customers WHERE CustomerID = 2");
+
+            var expected = "SELECT CustomerID FROM Customers WHERE CustomerID = 1 INTERSECT SELECT CustomerID FROM Customers WHERE CustomerID = 2";
+
+            Assert.AreEqual(expected.CleanupSql(), query.RawSql.CleanupSql());
+        }
     }
 }
