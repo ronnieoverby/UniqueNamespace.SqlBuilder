@@ -18,7 +18,7 @@ namespace Tests
             b.Where("@b = @c", new {b = "abc", c = "abc"});
 
             int res;
-            using (var db = new SqlConnection(ConnectionStrings.Default))
+            using (var db = new SqlConnection(ConnectionStrings.Default.ConnectionString))
                 res = db.Query<int>(t.RawSql, t.Parameters).Single();
             Assert.AreEqual(p.a, res);
         }
