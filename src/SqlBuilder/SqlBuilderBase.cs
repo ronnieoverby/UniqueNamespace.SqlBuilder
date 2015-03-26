@@ -169,6 +169,12 @@ namespace UniqueNamespace
             return this;
         }
 
+        public SqlBuilderBase<TParamsIn, TParamsOut> OrWhere(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Where", sql, " OR ", "WHERE ", nl, parameters);
+            return this;
+        }
+
         public SqlBuilderBase<TParamsIn, TParamsOut> OrderBy(string sql, TParamsIn parameters = null)
         {
             AddClause("OrderBy", sql, " , ", "ORDER BY ", nl, parameters);
