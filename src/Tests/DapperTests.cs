@@ -22,5 +22,35 @@ namespace Tests
                 res = db.Query<int>(t.RawSql, t.Parameters).Single();
             Assert.AreEqual(p.a, res);
         }
+
+        [Test]
+        public void OrWhereSimpleTest()
+        {
+            var builder = new SqlBuilder();
+            var query = builder.AddTemplate("SELECT * FROM Customers {{WHERE}}");
+
+            builder.OrWhere("LastSeen IS NULL");
+            builder.OrWhere("Gender = 'M'");
+
+            var expected = "SELECT * FROM Customers WHERE ( LastSeen IS NULL OR Gender = 'M' )";
+
+            Assert.AreEqual(expected.CleanupSql(), query.RawSql.CleanupSql());
+        }
+
+        [Test]
+        public void OrWhereMixedTest()
+        {
+            var builder = new SqlBuilder();
+            var query = builder.AddTemplate("SELECT * FROM Customers {{WHERE}}");
+
+            builder.Where("Name = 'Dapper'");
+            builder.OrWhere("LastSeen IS NULL");
+            builder.Where("Age >= 21");
+            builder.OrWhere("Gender = 'M'");
+
+            var expected = "SELECT * FROM Customers WHERE Name = 'Dapper' AND Age >= 21 AND  ( LastSeen IS NULL OR Gender = 'M' )";
+
+            Assert.AreEqual(expected.CleanupSql(), query.RawSql.CleanupSql());
+        }
     }
 }

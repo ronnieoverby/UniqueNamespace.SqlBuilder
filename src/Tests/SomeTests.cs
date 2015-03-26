@@ -71,7 +71,7 @@ namespace Tests
             var expected =
                 "SELECT This, That , TheOther " +
                 "FROM MyTable " +
-                "WHERE Character = @c OR Director = @d " +
+                "WHERE ( Character = @c OR Director = @d ) " +
                 "ORDER BY This , That , TheOther";
 
             Assert.AreEqual(expected.CleanupSql(), t.RawSql.CleanupSql(), "1");
@@ -79,14 +79,13 @@ namespace Tests
 
             expected = "SELECT Count(*) " +
                        "FROM MyTable " +
-                       "WHERE Character = @c OR Director = @d";
+                       "WHERE ( Character = @c OR Director = @d )";
 
             Assert.AreEqual(expected.CleanupSql(), t2.RawSql.CleanupSql(), "2");
 
             CollectionAssert.AreEqual(new[] { cParam, dParam }, t.Parameters);
             CollectionAssert.AreEqual(new[] { aParam, cParam, dParam }, t2.Parameters);
         }
-
 
         [Test]
         public void SqlBuilderOfDbParamsNotMissingMethods()
