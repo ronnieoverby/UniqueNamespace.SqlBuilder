@@ -4,7 +4,7 @@
     {
         public static string Northwind
         {
-            get { return GetConnectionString(); }
+            get { return GetConnectionString().ConnectionString; }
         }
     }
 }

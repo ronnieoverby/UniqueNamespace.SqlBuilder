@@ -22,7 +22,7 @@ namespace Tests
 
 
             int res;
-            using (var db = new SqlConnection(ConnectionStrings.Default))
+            using (var db = new SqlConnection(ConnectionStrings.Default.ConnectionString))
             {
                 res = db.SingleSql<int>(t.RawSql, t.Parameters);
             }

@@ -20,6 +20,7 @@ namespace UniqueNamespace
         {
             public string Sql { get; set; }
             public TParamsIn Parameters { get; set; }
+            public bool IsInclusive { get; set; }
         }
 
         class Clauses : List<Clause>
@@ -37,13 +38,46 @@ namespace UniqueNamespace
 
             public string ResolveClauses(ISqlBuilderParams<TParamsIn, TParamsOut> p)
             {
-                var sql = string.Join(_joiner, this.Select(clause =>
-                {
-                    if (clause.Parameters != null)
-                        p.Expand(clause.Parameters);
+                string sql;
 
-                    return clause.Sql;
-                }).ToArray());
+                if (this.Any(a => a.IsInclusive))
+                {
+                    sql = string.Join(
+                        _joiner,
+                        this.Where(a => !a.IsInclusive).Select(
+                            clause =>
+                                {
+                                    if (clause.Parameters != null) p.Expand(clause.Parameters);
+
+                                    return clause.Sql;
+                                })
+                            .Union(
+                                new[]
+                                    {
+                                        " ( "
+                                        + string.Join(
+                                            " OR ",
+                                            this.Where(a => a.IsInclusive).Select(clause =>
+                                {
+                                    if (clause.Parameters != null) p.Expand(clause.Parameters);
+
+                                    return clause.Sql;
+                                }).ToArray()) + " ) "
+                                    })
+                            .ToArray());
+                }
+                else
+                {
+                    sql = string.Join(
+                        _joiner,
+                        this.Select(
+                            clause =>
+                                {
+                                    if (clause.Parameters != null) p.Expand(clause.Parameters);
+
+                                    return clause.Sql;
+                                }).ToArray());
+                }
 
                 return _prefix + sql + _postfix;
             }
@@ -109,7 +143,7 @@ namespace UniqueNamespace
             return new Template(this, sql, parameters);
         }
 
-        public void AddClause(string name, string sql, string joiner, string prefix = "", string postfix = "", TParamsIn parameters = null)
+        public void AddClause(string name, string sql, string joiner, string prefix = "", string postfix = "", TParamsIn parameters = null, bool IsInclusive = false)
         {
             Clauses clauses;
             if (!_data.TryGetValue(name, out clauses))
@@ -117,7 +151,7 @@ namespace UniqueNamespace
                 clauses = new Clauses(joiner, prefix, postfix);
                 _data[name] = clauses;
             }
-            clauses.Add(new Clause { Sql = sql, Parameters = parameters });
+            clauses.Add(new Clause { Sql = sql, Parameters = parameters, IsInclusive = IsInclusive });
             _seq++;
         }
 
@@ -130,6 +164,18 @@ namespace UniqueNamespace
         public SqlBuilderBase<TParamsIn, TParamsOut> Join(string sql, TParamsIn parameters = null)
         {
             AddClause("Join", sql, nl + "JOIN ", nl + "JOIN ", nl, parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> Union(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Union", sql, nl + "UNION ", nl + "UNION ", nl, parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> Intersect(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Intersect", sql, nl + "INTERSECT ", nl + "INTERSECT ", nl, parameters);
             return this;
         }
 
@@ -166,6 +212,12 @@ namespace UniqueNamespace
         public SqlBuilderBase<TParamsIn, TParamsOut> Where(string sql, TParamsIn parameters = null)
         {
             AddClause("Where", sql, " AND ", "WHERE ", nl, parameters);
+            return this;
+        }
+
+        public SqlBuilderBase<TParamsIn, TParamsOut> OrWhere(string sql, TParamsIn parameters = null)
+        {
+            AddClause("Where", sql, " AND ", "WHERE ", nl, parameters, IsInclusive: true);
             return this;
         }
 
